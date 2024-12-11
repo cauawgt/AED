@@ -102,6 +102,64 @@ public class SistemaDeControle {
     }
 
     // Função De Remover
+    public Lutador removerLutador (int id) {
+        Lutador removido = null;
+        int n = ultimoListaTodos;
+        int verificador = buscarIndiceId (id);
+
+        // Removendo da Lista total
+        if (verificador != -1) {
+            if (todosOsLutadores[verificador].getNumeroPontosVida() > 0) {
+                removido = todosOsLutadores[verificador];
+                for (int i = verificador; i < n-1; i++) {
+                    todosOsLutadores[i] = todosOsLutadores[i + 1];
+                }
+                ultimoListaTodos = n - 1;
+
+                // Removendo do time1
+                if (todosOsLutadores[verificador].getTime() == time1) {
+                    Lutador removidoTime = null;
+                    int indice = -1;
+                    for (int i = 0; i < time1.getUltimo_vivos(); i++) {
+                        if (todosOsLutadores[verificador].getId() == time1.getLutadores()[i].getId()) {
+                            indice = i;
+                        }
+                    }
+
+                    if (indice != -1) {
+                        int m = time1.getUltimo_vivos();
+                        removidoTime = time1.getLutadores()[indice];
+                        for (int i = indice; i < m-1; i++) {
+                            time1.getLutadores()[i] = time1.getLutadores()[i + 1];
+                        }
+                        time1.setUltimo_vivos(m-1);
+                    }
+                }
+                else {
+                    Lutador removidoTime = null;
+                    int indice = -1;
+                    for (int i = 0; i < time2.getUltimo_vivos(); i++) {
+                        if (todosOsLutadores[verificador].getId() == time2.getLutadores()[i].getId()) {
+                            indice = i;
+                        }
+                    }
+
+                    if (indice != -1) {
+                        int m = time2.getUltimo_vivos();
+                        removidoTime = time2.getLutadores()[indice];
+                        for (int i = indice; i < m-1; i++) {
+                            time2.getLutadores()[i] = time2.getLutadores()[i + 1];
+                        }
+                        time2.setUltimo_vivos(m-1);
+                    }
+                }
+            }
+
+        }
+
+        return removido;
+    }
+
 
     // Organizacao Dos Times
     public void OrganizacaoDosTImes() {
@@ -183,7 +241,32 @@ public class SistemaDeControle {
 
             }
             else if (escolha == 3) {
+                loop = 4; // 3 Opção do menu: Remover Lutador que esteja vido
+                while (loop == 4) {
+                    System.out.println("\n*** Remover um Lutador Vivo ***");
+                    System.out.println("(1) - Inserir ID");
+                    System.out.println("(2) - Voltar");
+                    System.out.print("\nSelecione:");
+                    int escolha4 = input.nextInt();
 
+                    if (escolha4 == 1) {
+                        System.out.println("\nREMOÇÃO DE LUTADAOR");
+                        System.out.println("==================");
+                        System.out.print("ID:");
+                        int idLutadorRemovido = input.nextInt();
+                        System.out.println("==================");
+
+                        Lutador removido = removerLutador(idLutadorRemovido);
+                        System.out.printf("\nLutador com id (%d) foi removido. \n", removido.getId());
+
+                    }
+                    else if (escolha4 == 2) {
+                        loop = 1;
+                    }
+                    else {
+                        System.out.println("Opção Inválida.");
+                    }
+                }
             }
             else if (escolha == 4) {
 
