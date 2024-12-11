@@ -154,7 +154,13 @@ public class SistemaDeControle {
                     }
                 }
             }
+            else {
+                System.out.println("Lutador Morto.");
+            }
 
+        }
+        else {
+            System.out.println("Lutador não existe.");
         }
 
         return removido;
@@ -186,7 +192,7 @@ public class SistemaDeControle {
                     // Inserção de lutadores em times
                     if (escolha2 == 1) {
                         System.out.println("INSIRA UM NOVO LUTADOR");
-                        System.out.println("======================");
+                        System.out.println("===============================");
                         System.out.print("Id: ");
                         int id = input.nextInt();
                         System.out.print("Time (1) ou (2): ");
@@ -195,7 +201,7 @@ public class SistemaDeControle {
                         int valorDano = input.nextInt();
                         System.out.print("Valor base de iniciativa: ");
                         int valorBaseIniciativa = input.nextInt();
-                        System.out.println("======================");
+                        System.out.println("===============================");
 
 
                         if (escolhaTime == 1) {
@@ -251,13 +257,17 @@ public class SistemaDeControle {
 
                     if (escolha4 == 1) {
                         System.out.println("\nREMOÇÃO DE LUTADAOR");
-                        System.out.println("==================");
+                        System.out.println("===============================");
                         System.out.print("ID:");
                         int idLutadorRemovido = input.nextInt();
-                        System.out.println("==================");
 
                         Lutador removido = removerLutador(idLutadorRemovido);
-                        System.out.printf("\nLutador com id (%d) foi removido. \n", removido.getId());
+                        if (removido != null) {
+                            System.out.printf("\nLutador com id (%d) foi removido. \n", removido.getId());
+                        }
+                        System.out.println("===============================");
+
+
 
                     }
                     else if (escolha4 == 2) {
