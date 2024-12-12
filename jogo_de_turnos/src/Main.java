@@ -8,7 +8,8 @@ public class Main {
 
         int fim_de_jogo = 0;
         while (fim_de_jogo == 0) {
-            sistema.OrganizacaoDosTImes();
+            sistema.organizacaoDosTImes();
+            sistema.faseDeCombate();
         }
 
     }

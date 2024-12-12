@@ -34,6 +34,13 @@ public class Time {
         lutadores[ultimo_vivos] = lutador;
         ultimo_vivos = ultimo_vivos + 1;
     }
+    public void setLutadoresFila(Lutador lutador, int indice) {
+        lutadores[indice] = lutadores[indice + 1];
+    }
+    public void setLutadorRecolocadoNaFila(Lutador lutador, int indice) {
+        lutadores[indice] = lutador;
+    }
+
 
     public int getUltimo_vivos() {
         return ultimo_vivos;
@@ -58,6 +65,12 @@ public class Time {
     public void setLutadoresMortos(Lutador lutador) {
         this.lutadoresMortos[ultimo_mortos] = lutador;
         ultimo_mortos = ultimo_mortos + 1;
+    }
+
+    public void resetAtaquesTime () {
+        for (int i = 0; i < this.ultimo_vivos; i++) {
+            lutadores[i].resetQuantidadeAtaques();
+        }
     }
 
     public void ordenandoIniciativaDecrescente() {

@@ -5,6 +5,7 @@ public class Lutador {
     private int valorDeDano;
     private int numeroPontosVida;
     private int valorBaseIniciativa;
+    private int quantidadeAtaques;
 
     public Lutador(int id, Time time, int valorDeDano, int valorBaseIniciativa) {
         this.id = id;
@@ -43,7 +44,12 @@ public class Lutador {
     }
 
     public void setNumeroPontosVida(int numeroPontosVida) {
-        this.numeroPontosVida = numeroPontosVida;
+        if (numeroPontosVida < 0) {
+            this.numeroPontosVida = 0;
+        }
+        else {
+            this.numeroPontosVida = numeroPontosVida;
+        }
     }
 
     public int getValorBaseIniciativa() {
@@ -58,10 +64,22 @@ public class Lutador {
         }
     }
 
-    public String toString () {
+    public int getQuantidadeAtaques() {
+        return quantidadeAtaques;
+    }
+
+    public void crediteQuantidadeAtaques() {
+        this.quantidadeAtaques += 1;
+    }
+
+    public void resetQuantidadeAtaques () {
+        this.quantidadeAtaques = 0;
+    }
+
+    public String toString() {
         String resultado = "-------------------";
-        resultado += "\nID: "+ getId();
-        resultado += "\nTime: "+ getTime().getNome();
+        resultado += "\nID: " + getId();
+        resultado += "\nTime: " + getTime().getNome();
 
         return resultado;
     }
