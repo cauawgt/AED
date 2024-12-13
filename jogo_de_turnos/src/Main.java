@@ -10,6 +10,7 @@ public class Main {
         while (fim_de_jogo == 0) {
             sistema.organizacaoDosTImes();
             sistema.faseDeCombate();
+            fim_de_jogo = sistema.faseDeResultado();
         }
 
     }

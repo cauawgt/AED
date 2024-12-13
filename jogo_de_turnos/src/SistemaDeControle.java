@@ -6,12 +6,42 @@ public class SistemaDeControle {
     private Time time1;
     private Time time2;
     private int ultimoListaTodos;
+    private int loopFaseOrganizacao;
+    private int loopFaseDeCombate;
+    private int loopFaseDeResultado;
 
     public SistemaDeControle(Time time1, Time time2) {
         this.todosOsLutadores = new Lutador[100];
         this.time1 = time1;
         this.time2 = time2;
         this.ultimoListaTodos = 0;
+        this.loopFaseOrganizacao = 1;
+        this.loopFaseDeCombate = 1;
+        this.loopFaseDeResultado = 1;
+    }
+
+    public int getLoopFaseOrganizacao() {
+        return loopFaseOrganizacao;
+    }
+
+    public void setLoopFaseOrganizacao(int loopFaseOrganizacao) {
+        this.loopFaseOrganizacao = loopFaseOrganizacao;
+    }
+
+    public int getLoopFaseDeCombate() {
+        return loopFaseDeCombate;
+    }
+
+    public void setLoopFaseDeCombate(int loopFaseDeCombate) {
+        this.loopFaseDeCombate = loopFaseDeCombate;
+    }
+
+    public int getLoopFaseDeResultado() {
+        return loopFaseDeResultado;
+    }
+
+    public void setLoopFaseDeResultado(int loopFaseDeResultado) {
+        this.loopFaseDeResultado = loopFaseDeResultado;
     }
 
     public int getUltimoListaTodos() {
@@ -164,8 +194,8 @@ public class SistemaDeControle {
     // FASE 1: Organizacao Dos Times
     public void organizacaoDosTImes() {
         Scanner input = new Scanner(System.in);
-        int loop = 1;
-        while (loop == 1) {
+        
+        while (getLoopFaseOrganizacao() == 1) {
             System.out.println("\n*** FASE DE ORGANIZAÇÂO DOS TIMES ***\n");
             System.out.println("(1) - Inserção de lutadores em times");
             System.out.println("(2) - Relatório de Status de um time");
@@ -175,8 +205,8 @@ public class SistemaDeControle {
             int escolha = input.nextInt();
 
             if (escolha == 1) {
-                loop = 2; // Primeira opção do menu: Inserção de lutadores em times
-                while (loop == 2) {
+                setLoopFaseOrganizacao(2); // Primeira opção do menu: Inserção de lutadores em times
+                while (getLoopFaseOrganizacao() == 2) {
                     System.out.println("\n*** Inserção de Lutadores ***\n");
                     System.out.println("(1) - Inserir Jogador");
                     System.out.println("(2) - Voltar");
@@ -185,16 +215,49 @@ public class SistemaDeControle {
 
                     // Inserção de lutadores em times
                     if (escolha2 == 1) {
-                        System.out.println("INSIRA UM NOVO LUTADOR");
+                        System.out.println("\nINSIRA UM NOVO LUTADOR");
                         System.out.println("===============================");
                         System.out.print("Id: ");
                         int id = input.nextInt();
-                        System.out.print("Time (1) ou (2): ");
-                        int escolhaTime = input.nextInt();
-                        System.out.print("Valor de Dano: ");
-                        int valorDano = input.nextInt();
-                        System.out.print("Valor base de iniciativa: ");
-                        int valorBaseIniciativa = input.nextInt();
+
+                        int c1 = 0; // Controle de escolha de time
+                        while (c1 == 0) {
+                            System.out.print("Time (1) ou (2): ");
+                            c1 = input.nextInt();
+                            if (c1 == 1 || c1 == 2) {
+                                break;
+                            }
+                            else {
+                                System.out.println("Opção inválida.\n");
+                                c1 = 0;
+                            }
+                        }
+                        int escolhaTime = c1;
+
+                        int c2 = 0; // controle de valor de dano
+                        while (c2 <= 0) {
+                            System.out.print("Valor de Dano: ");
+                            c2 = input.nextInt();
+                            if (c2 <= 0) {
+                                System.out.println("Valor de dano inválido.\n");
+                            }
+                        }
+                        int valorDano = c2;
+                        
+                        int c3 = -1; // controle de valor base de iniciativa
+                        while (c3 == -1) {
+                            System.out.print("Valor base de iniciativa: ");
+                            c3 = input.nextInt();
+                            if (c3 <= 0 || c3 > 100) {
+                                System.out.println("Valor de iniciativa inválido.\n");
+                                c3 = -1;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                        int valorBaseIniciativa = c3;
+                        
                         System.out.println("===============================");
 
 
@@ -207,14 +270,17 @@ public class SistemaDeControle {
                         }
 
 
-                    } else {
-                        loop = 1;
+                    } else if (escolha2 == 2) {
+                        setLoopFaseOrganizacao(1);
+                    }
+                    else {
+                        System.out.println("Opção Inválida.");
                     }
                 }
 
             } else if (escolha == 2) {
-                loop = 3; // Segunda opção do menu: Relatório de status de um time
-                while (loop == 3) {
+                setLoopFaseOrganizacao(3); // Segunda opção do menu: Relatório de status de um time
+                while (getLoopFaseOrganizacao() == 3) {
                     System.out.println("\n*** Relatório de Status ***");
                     System.out.println("(1) - Time 1");
                     System.out.println("(2) - Time 2");
@@ -227,15 +293,15 @@ public class SistemaDeControle {
                     } else if (escolha3 == 2) {
                         System.out.println(time2);
                     } else if (escolha3 == 3) {
-                        loop = 1; // Volta ao menu principal da Fase 1
+                        setLoopFaseOrganizacao(1); // Volta ao menu principal da Fase 1
                     } else {
                         System.out.println("(Não temos essa opção!)");
                     }
                 }
 
             } else if (escolha == 3) {
-                loop = 4; // 3 Opção do menu: Remover Lutador que esteja vido
-                while (loop == 4) {
+                setLoopFaseOrganizacao(4);  // 3 Opção do menu: Remover Lutador que esteja vido
+                while (getLoopFaseOrganizacao() == 4) {
                     System.out.println("\n*** Remover um Lutador Vivo ***");
                     System.out.println("(1) - Inserir ID");
                     System.out.println("(2) - Voltar");
@@ -256,16 +322,24 @@ public class SistemaDeControle {
 
 
                     } else if (escolha4 == 2) {
-                        loop = 1;
+                        setLoopFaseOrganizacao(1);
                     } else {
                         System.out.println("Opção Inválida.");
                     }
                 }
             } else if (escolha == 4) {
-                loop = 0; // Passar para a fase de Combate
-                // Ordenando os times
-                time1.ordenandoIniciativaDecrescente();
-                time2.ordenandoIniciativaDecrescente();
+                if (time1.getUltimo_vivos() >= 1 && time2.getUltimo_vivos() >= 1) {
+                    System.out.println("Times prontos para o combate.");
+                    setLoopFaseOrganizacao(0);
+                    setLoopFaseDeCombate(1);
+                     // Passar para a fase de Combate
+                    // Ordenando os times
+                    time1.ordenandoIniciativaDecrescente();
+                    time2.ordenandoIniciativaDecrescente();
+                } else {
+                    System.out.println("ATENÇÃO: Um dos times está vazio.");
+                }
+                
             } else {
                 System.out.println("Opção não idenficada.");
 
@@ -372,8 +446,7 @@ public class SistemaDeControle {
     // FASE 2: Fase De Combate
     public void faseDeCombate() {
         Scanner input = new Scanner(System.in);
-        int loopFaseDeCombate = 1;
-        while (loopFaseDeCombate == 1) {
+        while (getLoopFaseDeCombate() == 1) {
             System.out.println("\n*** FASE DE COMBATE ***\n");
             System.out.println("(1) - Começar combate");
             System.out.println("(2) - voltar");
@@ -384,12 +457,109 @@ public class SistemaDeControle {
             if (escolha5 == 1) {
                 lutaEntreEquipes();
                 System.out.println("BATALHA FINALIZADA!\n");
-                loopFaseDeCombate = 0;
+                setLoopFaseDeCombate(0);
+                setLoopFaseDeResultado(1);
+            }
+            else if (escolha5 == 2) {
+                setLoopFaseDeCombate(0);
+                setLoopFaseDeResultado(0);
+                setLoopFaseOrganizacao(1);
+
             } else {
-                loopFaseDeCombate = 0;
+                System.out.println("Opção Inválida.");
             }
 
         }
+    }
+
+    // Fase 3: Fase de Resultado
+    public int faseDeResultado() {
+        int resultado = 0;
+        Scanner input = new Scanner(System.in);
+        while (getLoopFaseDeResultado() == 1) {
+
+            int scoreTime1 = time2.getUltimo_mortos();
+            int scoreTime2 = time1.getUltimo_mortos();
+            
+            
+            System.out.println("\n*** RESULTADOS ***\n");
+            System.out.println("\n-------------------------");
+            System.out.println("Score Time 1: " + scoreTime1);
+            System.out.println("Score Time 2: " + scoreTime2);
+            System.out.println("-------------------------\n");
+            
+
+            if (time1.getUltimo_vivos() > 0 && time2.getUltimo_vivos() == 0) {
+                System.out.println("Time 1 venceu!");
+                resultado = 1;
+                setLoopFaseDeResultado(0);
+            } 
+            else if (time1.getUltimo_vivos() == 0 && time2.getUltimo_vivos() > 0) {
+                System.out.println("Time 2 venceu!");
+                resultado = 1;
+                setLoopFaseDeResultado(0);
+            } 
+            else if (time1.getUltimo_vivos() > 0 && time2.getUltimo_vivos() > 0) {
+                if (scoreTime1 >= 20 && scoreTime2 >= 20) {
+                    if (scoreTime1 > scoreTime2) {
+                        System.out.println("Time 1 venceu!");
+                        resultado = 1;
+                        setLoopFaseDeResultado(0);
+                    } else if (scoreTime1 < scoreTime2) {
+                        System.out.println("Time 2 venceu!");
+                        resultado = 1;
+                        setLoopFaseDeResultado(0);
+                    } 
+
+                } else if (scoreTime1 >= 20 && scoreTime2 < 20) {
+                    System.out.println("Time 1 venceu!");
+                    resultado = 1;
+                    setLoopFaseDeResultado(0);
+                }
+                
+                else if (scoreTime2 >= 20 && scoreTime1 < 20) {
+                    System.out.println("Time 2 venceu!");
+                    resultado = 1;
+                    setLoopFaseDeResultado(0);
+                } 
+            }
+            else if (time1.getUltimo_vivos() == 0 && time2.getUltimo_vivos() == 0) {
+                if (scoreTime1 > scoreTime2) {
+                    System.out.println("Time 1 venceu!");
+                    resultado = 1;
+                    setLoopFaseDeResultado(0);
+                } else if (scoreTime1 < scoreTime2) {
+                    System.out.println("Time 2 venceu!");
+                    resultado = 1;
+                    setLoopFaseDeResultado(0);
+                } else {
+                    System.out.println("Empate!");
+                    resultado = 1;
+                    setLoopFaseDeResultado(0);
+                }
+            } 
+            
+            if (resultado == 0){
+                System.out.println("\n\nNovo Turno:");
+                        System.out.println("(1) - Organização dos Times");
+                        System.out.println("(2) - Combate");
+
+                        System.out.print("\nSelecione: ");
+                        int x = input.nextInt();
+                        if (x == 1) {
+                            setLoopFaseDeResultado(0);
+                            setLoopFaseOrganizacao(1);
+                        } else if (x == 2) {
+                            setLoopFaseDeResultado(0);
+                            setLoopFaseDeCombate(1);
+                        } else {
+                            System.out.println("Opção Inválida.");
+                        }
+            }
+        }
+
+        return resultado;
+
     }
 
 }
