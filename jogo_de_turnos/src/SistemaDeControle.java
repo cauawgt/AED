@@ -144,51 +144,46 @@ public class SistemaDeControle {
                 ultimoListaTodos = n - 1;
 
                 // Removendo do time1
-                if (todosOsLutadores[verificador].getTime() == time1) {
-                    Lutador removidoTime = null;
+                if (time1.getUltimo_vivos() > 0) {
                     int indice = -1;
                     for (int i = 0; i < time1.getUltimo_vivos(); i++) {
-                        if (todosOsLutadores[verificador].getId() == time1.getLutadores()[i].getId()) {
+                        if (time1.getLutadores()[i].getId() == id) {
                             indice = i;
                         }
                     }
-
                     if (indice != -1) {
-                        int m = time1.getUltimo_vivos();
-                        removidoTime = time1.getLutadores()[indice];
-                        for (int i = indice; i < m - 1; i++) {
-                            time1.getLutadores()[i] = time1.getLutadores()[i + 1];
+                        time1.setUltimo_vivos(time1.getUltimo_vivos() - 1);
+                        for (int i = indice; i < time1.getUltimo_vivos(); i++) {
+                            time1.setLutadoresFila(time1.getLutadores()[i + 1], i);
                         }
-                        time1.setUltimo_vivos(m - 1);
-                    }
-                } else {
-                    Lutador removidoTime = null;
-                    int indice = -1;
-                    for (int i = 0; i < time2.getUltimo_vivos(); i++) {
-                        if (todosOsLutadores[verificador].getId() == time2.getLutadores()[i].getId()) {
-                            indice = i;
-                        }
-                    }
-
-                    if (indice != -1) {
-                        int m = time2.getUltimo_vivos();
-                        removidoTime = time2.getLutadores()[indice];
-                        for (int i = indice; i < m - 1; i++) {
-                            time2.getLutadores()[i] = time2.getLutadores()[i + 1];
-                        }
-                        time2.setUltimo_vivos(m - 1);
                     }
                 }
-            } else {
+                
+                // Removendo do time2 
+                if (time2.getUltimo_vivos() > 0) {
+                    int indice = -1;
+                    for (int i = 0; i < time2.getUltimo_vivos(); i++) {
+                        if (time2.getLutadores()[i].getId() == id) {
+                            indice = i;
+                        }
+                    }
+                    if (indice != -1) {
+                        time2.setUltimo_vivos(time2.getUltimo_vivos() - 1);
+                        for (int i = indice; i < time2.getUltimo_vivos(); i++) {
+                            time2.setLutadoresFila(time2.getLutadores()[i + 1], i);
+                        }
+                    }
+                } else {
                 System.out.println("Lutador Morto.");
-            }
-
+                } 
+            } 
         } else {
-            System.out.println("Lutador não existe.");
+            System.out.println("Lutador não encontrado.");
         }
-
         return removido;
+
     }
+        
 
 
     // FASE 1: Organizacao Dos Times
@@ -375,6 +370,16 @@ public class SistemaDeControle {
         }
     }
 
+    public void reinserirLutadorNaFila (Time time, Lutador lutador) {
+        if (lutador.getNumeroPontosVida() > 0) {
+            time.setLutadorRecolocadoNaFila(lutador, time.getUltimo_vivos() - 1);
+        }
+        else {
+            time.setUltimo_vivos(time.getUltimo_vivos() - 1);
+            time.setLutadoresMortos(lutador);
+        }
+    }
+
 
     public void lutaEntreEquipes() {
         // Reseta a quantidae de ataques que todos os lutadores deram numa rodada passada (caso exista)
@@ -393,25 +398,8 @@ public class SistemaDeControle {
 
                 lutaDaVez(lutadorDaVezTime1, lutadorDaVezTime2);
 
-                // Se ele estiver vivo volta para o final da fila
-                if (lutadorDaVezTime1.getNumeroPontosVida() > 0) {
-                    time1.setLutadorRecolocadoNaFila(lutadorDaVezTime1, time1.getUltimo_vivos() - 1);
-                }
-                // Senão vai para lista de mortos
-                else {
-                    time1.setUltimo_vivos(time1.getUltimo_vivos() - 1); // remover o ultimo elemento
-                    time1.setLutadoresMortos(lutadorDaVezTime1);
-                }
-
-                // Se ele estiver vivo volta para o final da fila
-                if (lutadorDaVezTime2.getNumeroPontosVida() > 0) {
-                    time2.setLutadorRecolocadoNaFila(lutadorDaVezTime2, time2.getUltimo_vivos() - 1);
-                }
-                // Senão vai para lista de mortos
-                else {
-                    time2.setUltimo_vivos(time2.getUltimo_vivos() - 1);
-                    time2.setLutadoresMortos(lutadorDaVezTime2);
-                }
+                reinserirLutadorNaFila(time1, lutadorDaVezTime1);
+                reinserirLutadorNaFila(time2, lutadorDaVezTime2);
 
                 if (time1.getUltimo_vivos() == 0 || time2.getUltimo_vivos() == 0) {
                     timeTotalmenteMorto = 1;
