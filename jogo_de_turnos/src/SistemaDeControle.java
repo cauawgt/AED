@@ -152,10 +152,11 @@ public class SistemaDeControle {
                         }
                     }
                     if (indice != -1) {
-                        time1.setUltimo_vivos(time1.getUltimo_vivos() - 1);
-                        for (int i = indice; i < time1.getUltimo_vivos(); i++) {
+                        
+                        for (int i = indice; i < time1.getUltimo_vivos()-1; i++) {
                             time1.setLutadoresFila(time1.getLutadores()[i + 1], i);
                         }
+                        time1.setUltimo_vivos(time1.getUltimo_vivos() - 1);
                     }
                 }
                 
@@ -168,10 +169,11 @@ public class SistemaDeControle {
                         }
                     }
                     if (indice != -1) {
-                        time2.setUltimo_vivos(time2.getUltimo_vivos() - 1);
+                        
                         for (int i = indice; i < time2.getUltimo_vivos(); i++) {
                             time2.setLutadoresFila(time2.getLutadores()[i + 1], i);
                         }
+                        time2.setUltimo_vivos(time2.getUltimo_vivos() - 1);
                     }
                 } else {
                 System.out.println("Lutador Morto.");
